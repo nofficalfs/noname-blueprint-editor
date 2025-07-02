@@ -48,9 +48,9 @@ export interface IBpBinaryExpression<TLeft extends IBpDataType, TRight extends I
  */
 export interface IBpUnaryExpression<TType extends IBpDataType> extends IBpExpression<TType> {
     /**
-     * 表达式
+     * 输入表达式
      */
-    expression: IBpExpression<TType>;
+    input: IBpExpression<TType>;
 }
 
 /**
@@ -65,6 +65,16 @@ export interface IBpCallExpression<TType extends IBpDataType> extends IBpExpress
      * 函数的参数表达式
      */
     arguments: BpFunctionArguments;
+}
+
+/**
+ * 表示一个选择器表达式
+ */
+export interface IBpSelectExpression<TInput extends IBpDataType, TOutput extends IBpDataType> extends IBpExpression<TOutput> {
+    /**
+     * 输入表达式
+     */
+    input: IBpExpression<TInput>;
 }
 
 export const enum BpBinaryOperator {
