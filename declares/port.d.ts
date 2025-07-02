@@ -1,7 +1,5 @@
-/// <reference path="./dataType.d.ts" />
-/// <reference path="./flowNode.d.ts" />
-
-// ## 蓝图端口(引脚)
+import { IBpDataType } from "./dataType";
+import { IBpInstNode } from "./flowNode";
 
 /*
 继承层级:
@@ -23,7 +21,7 @@ PortBase
  * 
  * @abstract
  */
-interface PortBase {
+export interface IBpPortBase {
     /**
      * 表示端口在当前节点中的唯一标识ID
      */
@@ -31,22 +29,20 @@ interface PortBase {
     /**
      * 标识端口所属的节点
      */
-    node: InstNode;
+    node: IBpInstNode;
 }
-
-// ### 蓝图数据端口
 
 /**
  * 表示一个节点用于输入输出数据的端口
  * 
  * @abstract
  */
-interface DataPort<TType extends DataType> extends PortBase {}
+export interface IBpDataPort<TType extends IBpDataType> extends IBpPortBase {}
 
 /**
  * 表示节点接收输入的数据端口
  */
-interface InputPort<TType extends DataType> extends DataPort<TType> {
+export interface IBpInputPort<TType extends IBpDataType> extends IBpDataPort<TType> {
     /**
      * 表示当前端口的数据状态
      * 
@@ -55,11 +51,11 @@ interface InputPort<TType extends DataType> extends DataPort<TType> {
     value: TType;
 }
 
-interface OutputPort<TType extends DataType> extends DataPort<TType> {
+export interface IBpOutputPort<TType extends IBpDataType> extends IBpDataPort<TType> {
     /**
      * 表示执行时向哪些端口输出数据
      */
-    targets: InputPort<TType>[];
+    targets: IBpInputPort<TType>[];
 }
 /**
  * 执行流端口
@@ -68,28 +64,28 @@ interface OutputPort<TType extends DataType> extends DataPort<TType> {
  * 
  * @abstract
  */
-interface FlowPort extends PortBase {}
+export interface IBpFlowPort extends IBpPortBase {}
 
 /**
  * 表示一个执行流的输入端口
  */
-interface FlowInputPort extends FlowPort {}
+export interface IBpEnterPort extends IBpFlowPort {}
 
 /**
  * 表示一个执行流的输入端口
  * 
  * 特殊的是，它可能会导致当前执行流中断，对于有返回值函数的主执行流来说这是不可接受的
  */
-interface FlowHolePort extends FlowPort {}
+export interface IBpHolePort extends IBpFlowPort {}
 
 /**
  * 表示一个执行流的输出端口
  */
-interface FlowOutputPort extends FlowPort {
+export interface IBpExitPort extends IBpFlowPort {
     /**
      * 表示执行时向哪个端口输出执行流
      */
-    target: FlowInputPort | null;
+    target: IBpEnterPort | null;
 }
 
 /**
@@ -97,4 +93,4 @@ interface FlowOutputPort extends FlowPort {
  * 
  * 特殊的是，从此端口输出的执行流是输入执行流的子执行流，即使出现中断也不会影响父执行流
  */
-interface FlowSublinePort extends FlowOutputPort {}
+export interface IBpSublinePort extends IBpExitPort {}

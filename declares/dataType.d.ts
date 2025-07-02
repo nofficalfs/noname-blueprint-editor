@@ -1,5 +1,3 @@
-// ### 数据类型
-
 /*
 继承层级:
 DataType
@@ -47,131 +45,121 @@ PlayerVCardKind
  * 
  * @abstract
  */
-interface DataType {
+export interface IBpDataType {
     /**
      * 数据有效性验证器
      * 
      * @issue 暂定喵，而且最后也不会是一个函数，这里用函数暂时表示一下喵
      */
-    validator: DataFilter;
+    validator: BpDataFilter;
 }
 
-type DataFilter = (data: any) => boolean;
-
-// ### 基础数据类型
+export type BpDataFilter = (data: any) => boolean;
 
 /**
  * 表示编辑器的原始数据类型
  * 
  * @abstract
  */
-interface BasicType extends DataType {}
+export interface IBpBasicData extends IBpDataType {}
 
 /**
  * 表示字符串类型
  */
-interface TextType extends BasicType {}
+export interface IBpString extends IBpBasicData {}
 
 /**
  * 表示数值类型
  */
-interface NumberType extends BasicType {}
+export interface IBpNumber extends IBpBasicData {}
 
 /**
  * 表示对立逻辑类型
  */
-interface BooleanType extends BasicType {}
+export interface IBpBoolean extends IBpBasicData {}
 
 /**
  * 表示无返回值类型 (仅能用于函数返回值)
  */
-interface VoidType extends BasicType {}
-
-// ### 复杂数据类型
+export interface IBpVoid extends IBpBasicData {}
 
 /**
  * 表示复杂数据类型
  */
-interface ComplexType extends DataType {}
+export interface IBpComplexData extends IBpDataType {}
 
 /**
  * 表示可迭代的集合类型
  */
-interface ArrayType<TData extends DataType> extends ComplexType {}
-
-// ### 游戏实体数据类型
+export interface IBpArray<TData extends IBpDataType> extends IBpComplexData {}
 
 /**
  * 表示卡牌游戏中实际对应的实体类型
  * 
  * @abstract
  */
-interface EntityType extends DataType {}
+export interface IBpEntityData extends IBpDataType {}
 
 /**
  * 表示一位玩家
  */
-interface PlayerType extends EntityType, CardStorageType<PlayerCardKind>, VCardStorageType<PlayerVCardKind> {}
+export interface IBpPlayer extends IBpEntityData, IBpCardStorage<BpPlayerCardKind>, IBpVCardStorage<BpPlayerVCardKind> {}
 
 /**
  * 表示一张卡牌
  * 
  * @abstract
  */
-interface CardlikeType extends EntityType {}
+export interface IBpCardlike extends IBpEntityData {}
 
 /**
  * 表示一张虚拟卡牌
  * 
  * 以任意张实体卡牌为基础转化成的卡牌
  */
-interface VCardType extends CardlikeType, CardSetType {}
+export interface IBpVCard extends IBpCardlike, IBpCardSet {}
 
 /**
  * 表示一张实体卡牌
  * 
  * 实体卡牌可以存在于牌堆中
  */
-interface CardType extends CardlikeType {}
+export interface IBpCard extends IBpCardlike {}
 
 /**
  * 表示一个牌堆
  */
-interface CardpileType extends EntityType, CardSetType {}
+export interface IBpCardpile extends IBpEntityData, IBpCardSet {}
 
 // ...
-
-// ### 核心数据类型
 
 /**
  * 表示游戏逻辑的核心类型
  * 
  * @abstract
  */
-interface CoreType extends DataType {}
+export interface IBpCoreData extends IBpDataType {}
 
 /**
  * 表示一个游戏结算事件
  */
-interface GameEventType extends CoreType, PlayerStorageType<EventPlayerKind>, CardSetType {}
+export interface IBpGameEvent extends IBpCoreData, IBpPlayerStorage<BpEventPlayerKind>, IBpCardSet {}
 
 // ...
-
-// ### 选择器目标类型
 
 /**
  * 表示可成为选择器目标的类型
  * 
  * @abstract
  */
-interface TargetType extends DataType {}
+export interface IBpTargetData extends IBpDataType {}
 
 /**
  * 表示包含任意个可能重复的玩家组
  * 
  * @issue 应该也没必要保持去重状态吧喵？
  */
-interface PlayerSetType extends TargetType, ArrayType<PlayerType> {}
+export interface IBpPlayerSet extends IBpTargetData, IBpArray<IBpPlayer> {}
 
 /**
  * 表示一个包含多个玩家组的主体
@@ -180,66 +168,64 @@ interface PlayerSetType extends TargetType, ArrayType<PlayerType> {}
  * 
  * @abstract
  */
-interface PlayerStorageType<TKind> extends TargetType {}
+export interface IBpPlayerStorage<TKind> extends IBpTargetData {}
 
 /**
  * 表示游戏当前玩家组的类型
  * 
  * 包含存活玩家组、阵亡玩家组以及所有玩家组
  */
-interface GamePlayersType extends PlayerStorageType<GamePlayerKind> {}
+export interface IBpGamePlayers extends IBpPlayerStorage<BpGamePlayerKind> {}
 
 /**
  * 表示结算事件的玩家组类型
  * 
  * 包含事件主体玩家组、事件原因玩家组、事件目标玩家组、事件附加目标玩家组
  */
-interface EventPlayersType extends PlayerStorageType<EventPlayerKind> {}
+export interface IBpEventPlayers extends IBpPlayerStorage<BpEventPlayerKind> {}
 
 /**
  * 表示包含任意个可能重复的实体卡牌组
  */
-interface CardSetType extends TargetType, ArrayType<CardType> {}
+export interface IBpCardSet extends IBpTargetData, IBpArray<IBpCard> {}
 
 /**
  * 表示一个包含多个实体卡牌组的主体
  * 
  * @abstract
  */
-interface CardStorageType<TKind> extends TargetType {}
+export interface IBpCardStorage<TKind> extends IBpTargetData {}
 
 /**
  * 表示拥有的实体卡牌组的玩家
  * 
  * 包括手牌、装备牌、判定牌以及其他区域内的牌
  */
-interface PlayerCardsType extends VCardStorageType<PlayerCardKind> {}
+export interface IBpPlayerCards extends IBpVCardStorage<BpPlayerCardKind> {}
 
 /**
  * 表示包含任意个可能重复的虚拟卡牌组
  */
-interface VCardSetType extends TargetType, ArrayType<VCardType> {}
+export interface IBpVCardSet extends IBpTargetData, IBpArray<IBpVCard> {}
 
 /**
  * 表示一个包含多个虚拟卡牌组的主体
  * 
  * @abstract
  */
-interface VCardStorageType<TKind> extends TargetType {}
+export interface IBpVCardStorage<TKind> extends IBpTargetData {}
 
 /**
  * 表示拥有的虚拟卡牌组的玩家
  * 
  * 包括虚拟装备牌、虚拟判定牌等
  */
-interface PlayerVCardsType extends VCardStorageType<PlayerVCardKind> {}
-
-// #### Storage的集合类型
+export interface IBpPlayerVCards extends IBpVCardStorage<BpPlayerVCardKind> {}
 
 /**
  * 表示游戏中玩家组的类型
  */
-declare enum GamePlayerKind {
+export const enum BpGamePlayerKind {
     all,
     alive,
     dead,
@@ -248,7 +234,7 @@ declare enum GamePlayerKind {
 /**
  * 表示事件中玩家组的类型
  */
-declare enum EventPlayerKind {
+export const enum BpEventPlayerKind {
     player,
     source,
     targets,
@@ -258,7 +244,7 @@ declare enum EventPlayerKind {
 /**
  * 表示玩家中实体卡牌组的类型
  */
-declare enum PlayerCardKind {
+export const enum BpPlayerCardKind {
     hand,
     equip,
     judge,
@@ -269,7 +255,7 @@ declare enum PlayerCardKind {
 /**
  * 表示玩家中虚拟卡牌组的类型
  */
-declare enum PlayerVCardKind {
+export const enum BpPlayerVCardKind {
     equip,
     judge,
     // ...

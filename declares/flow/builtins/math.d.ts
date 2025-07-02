@@ -1,6 +1,9 @@
+import { IBpNumber } from "../../dataType";
+import { IBpBuiltinFunction } from "../../function";
+
 declare namespace BpMath {
-    const PI: BuiltinFunction<'PI', [], NumberType>;
-    const abs: BuiltinFunction<'abs', [NumberType], NumberType>;
-    const min: BuiltinFunction<'min', [NumberType, NumberType], NumberType>;
-    const max: BuiltinFunction<'max', [NumberType, NumberType], NumberType>;
+    const PI: IBpBuiltinFunction<'PI', [], IBpNumber>;
+    const abs: IBpBuiltinFunction<'abs', [IBpNumber], IBpNumber>;
+    const min: IBpBuiltinFunction<'min', [IBpNumber, IBpNumber], IBpNumber>;
+    const max: IBpBuiltinFunction<'max', [IBpNumber, IBpNumber], IBpNumber>;
 }

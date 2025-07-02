@@ -1,16 +1,18 @@
-/// <reference path="../flowNode.d.ts" />
-
-// #### 基本节点
+import { IBpDataType } from "../dataType";
+import { IBpInstNode } from "../flowNode";
+import { IBpOutputPort } from "../port";
+import { BpFunctionInputPorts, BpArgumentDataTypes, BpInputPorts } from "../utils";
+import { IBpExpression } from "./expression";
 
 /**
  * 表示一些基础单步指令节点
  */
-interface BasicInstNode extends InstNode {}
+export interface IBpBasicInstNode extends IBpInstNode {}
 
 /**
  * 调用自定义无返回值函数的节点
  */
-interface SubroutineNode extends BasicInstNode {
+export interface IBpSubroutineNode extends IBpBasicInstNode {
     /**
      * 调用的函数标识符
      */
@@ -18,22 +20,23 @@ interface SubroutineNode extends BasicInstNode {
     /**
      * 调用的函数输入端口
      */
-    inputs: FunctionInputPorts;
+    inputs: BpFunctionInputPorts;
     /**
      * 调用的函数输出端口
      */
     outputs: readonly [];
 }
 
-interface ExpressionNode<TInputs extends ArgumentDataTypes, TOutput extends DataType> extends BasicInstNode {
+export interface IBpExpressionNode<TInputs extends BpArgumentDataTypes, TOutput extends IBpDataType>
+    extends IBpBasicInstNode {
     /**
      * 表达式参数输入端口
      */
-    inputs: InputPorts<TInputs>;
+    inputs: BpInputPorts<TInputs>;
     /**
      * 表达式结果输出端口
      */
-    outputs: readonly [OutputPort<TOutput>];
+    outputs: readonly [IBpOutputPort<TOutput>];
     /**
      * 表示每个输入端口的名称，用于生成表达式
      */
@@ -41,5 +44,5 @@ interface ExpressionNode<TInputs extends ArgumentDataTypes, TOutput extends Data
     /**
      * 嵌入的表达式树
      */
-    expression: Expression<TOutput>;
+    expression: IBpExpression<TOutput>;
 }

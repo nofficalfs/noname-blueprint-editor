@@ -1,28 +1,28 @@
-/// <reference path="../flowNode.d.ts" />
-
-// #### 分支节点
+import { IBpDataType, IBpBoolean, IBpNumber, IBpArray } from "../dataType";
+import { IBpBranchNode } from "../flowNode";
+import { IBpInputPort, IBpOutputPort, IBpEnterPort, IBpExitPort, IBpHolePort, IBpSublinePort } from "../port";
 
 /**
  * 表示If分支节点
  */
-interface IfNode extends BranchNode {
+export interface IBpIfNode extends IBpBranchNode {
     /**
      * 输入端口:
      * -> 分支条件
      */
-    inputs: readonly [InputPort<BooleanType>];
+    inputs: readonly [IBpInputPort<IBpBoolean>];
     outputs: readonly []; 
     /**
      * 进入端口:
      * -> 进入分支
      */
-    enters: readonly [FlowInputPort];
+    enters: readonly [IBpEnterPort];
     /**
      * 退出端口:
      * -> 条件为真
      * -> 条件为假
      */
-    exits: readonly [FlowOutputPort, FlowOutputPort];
+    exits: readonly [IBpExitPort, IBpExitPort];
 }
 
 /**
@@ -30,19 +30,19 @@ interface IfNode extends BranchNode {
  * 
  * @abstract
  */
-interface LoopBaseNode extends BranchNode {
+export interface IBpLoopNodeBase extends IBpBranchNode {
     /**
      * 进入端口
      * -> 进入循环
      * -> 跳出循环 (break)
      */
-    enters: readonly [FlowInputPort, FlowHolePort];
+    enters: readonly [IBpEnterPort, IBpHolePort];
     /**
      * 退出端口
      * -> 循环子执行流
      * -> 循环执行后
      */
-    exits: readonly [FlowSublinePort, FlowOutputPort];
+    exits: readonly [IBpSublinePort, IBpExitPort];
 }
 
 /**
@@ -52,12 +52,12 @@ interface LoopBaseNode extends BranchNode {
  * 
  * @abstract
  */
-interface WhileNode extends LoopBaseNode {
+export interface IBpWhileNode extends IBpLoopNodeBase {
     /**
      * 输入端口:
      * -> 分支条件
      */
-    inputs: readonly [InputPort<BooleanType>];
+    inputs: readonly [IBpInputPort<IBpBoolean>];
     outputs: readonly [];
 }
 
@@ -66,19 +66,19 @@ interface WhileNode extends LoopBaseNode {
  * 
  * 当循环值在初始值和终止值的范围内持续的发出子执行流脉冲
  */
-interface ForNode extends LoopBaseNode {
+export interface IBpForNode extends IBpLoopNodeBase {
     /**
      * 输入端口:
      * -> 初始值 (i = x)
      * -> 终止值 (i < x) // @issue 终止值是否应该包含在循环区间中? (即是使用`i < x`还是`i <= x`)
      * -> 步进值 (i += x)
      */
-    inputs: readonly [InputPort<NumberType>, InputPort<NumberType>, InputPort<NumberType>];
+    inputs: readonly [IBpInputPort<IBpNumber>, IBpInputPort<IBpNumber>, IBpInputPort<IBpNumber>];
     /**
      * 输出端口:
      * -> 当前循环值 i
      */
-    outputs: readonly [OutputPort<NumberType>];
+    outputs: readonly [IBpOutputPort<IBpNumber>];
 }
 
 /**
@@ -86,15 +86,15 @@ interface ForNode extends LoopBaseNode {
  * 
  * 依照给定的迭代数组长度发出对应次数的子执行流脉冲
  */
-interface ForOfNode<TData extends DataType> extends LoopBaseNode {
+export interface IBpForOfNode<TData extends IBpDataType> extends IBpLoopNodeBase {
     /**
      * 输入端口:
      * -> 迭代的数组
      */
-    inputs: readonly [InputPort<ArrayType<TData>>];
+    inputs: readonly [IBpInputPort<IBpArray<TData>>];
     /**
      * 输出端口:
      * -> 当前迭代对象
      */
-    outputs: readonly [OutputPort<TData>];
+    outputs: readonly [IBpOutputPort<TData>];
 }

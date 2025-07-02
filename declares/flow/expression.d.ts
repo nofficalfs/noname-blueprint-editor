@@ -1,16 +1,17 @@
-// ##### 表达式
+import { IBpDataType, IBpBasicData } from "../dataType";
+import { BpFunctionArguments } from "../utils";
 
 /**
  * 表示一个表达式
  * 
  * @abstract
  */
-interface Expression<TType extends DataType> { }
+export interface IBpExpression<TType extends IBpDataType> { }
 
 /**
  * 表示一个数据输入的表达式
  */
-interface InputExpression<TType extends DataType> extends Expression<TType> {
+export interface IBpInputExpression<TType extends IBpDataType> extends IBpExpression<TType> {
     /**
      * 指示当前表达式的数据输入端口
      */
@@ -20,7 +21,7 @@ interface InputExpression<TType extends DataType> extends Expression<TType> {
 /**
  * 表示一个常量表达式
  */
-interface ConstantExpression<TType extends BasicType> extends Expression<TType> {
+export interface IBpConstantExpression<TType extends IBpBasicData> extends IBpExpression<TType> {
     /**
      * 获取当前表达式的值
      */
@@ -30,32 +31,32 @@ interface ConstantExpression<TType extends BasicType> extends Expression<TType> 
 /**
  * 表示一个二元表达式
  */
-interface BinaryExpression<TLeft extends DataType, TRight extends DataType, TResult extends DataType>
-    extends Expression<TResult> {
+export interface IBpBinaryExpression<TLeft extends IBpDataType, TRight extends IBpDataType, TResult extends IBpDataType>
+    extends IBpExpression<TResult> {
     /**
      * 左侧表达式
      */
-    left: Expression<TLeft>;
+    left: IBpExpression<TLeft>;
     /**
      * 右侧表达式
      */
-    right: Expression<TRight>;
+    right: IBpExpression<TRight>;
 }
 
 /**
  * 表示一个一元表达式
  */
-interface UnaryExpression<TType extends DataType> extends Expression<TType> {
+export interface IBpUnaryExpression<TType extends IBpDataType> extends IBpExpression<TType> {
     /**
      * 表达式
      */
-    expression: Expression<TType>;
+    expression: IBpExpression<TType>;
 }
 
 /**
  * 表示一个函数调用表达式
  */
-interface CallExpression<TType extends DataType> extends Expression<TType> {
+export interface IBpCallExpression<TType extends IBpDataType> extends IBpExpression<TType> {
     /**
      * 被调用的函数的标识符
      */
@@ -63,10 +64,10 @@ interface CallExpression<TType extends DataType> extends Expression<TType> {
     /**
      * 函数的参数表达式
      */
-    arguments: FunctionArguments;
+    arguments: BpFunctionArguments;
 }
 
-declare const enum BinaryOperator {
+export const enum BpBinaryOperator {
     /**
      * 值相等
      */
@@ -157,7 +158,7 @@ declare const enum BinaryOperator {
     bitXor,
 }
 
-declare const enum UnaryOperator {
+export const enum BpUnaryOperator {
     /**
      * 逻辑非
      */

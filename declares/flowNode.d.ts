@@ -1,32 +1,30 @@
-/// <reference path="./dataType.d.ts" />
-/// <reference path="./nodeBase.d.ts" />
-/// <reference path="./port.d.ts" />
-/// <reference path="./utils.d.ts" />
-
-// ### 执行流节点
+import { IBpDataType } from "./dataType";
+import { IBpNodeBase } from "./nodeBase";
+import { IBpInputPort, IBpOutputPort, IBpEnterPort, IBpExitPort, IBpSublinePort } from "./port";
+import { BpArgumentDataTypes, BpReturnDataType, BpEntryOutputPorts, BpEndInputPorts } from "./utils";
 
 /**
  * 表示一个蓝图执行流的节点
  * 
  * @abstract
  */
-interface FlowNode extends NodeBase {
+export interface IBpFlowNode extends IBpNodeBase {
     /**
      * 指定数据的输入端口
      */
-    inputs: readonly InputPort<DataType>[];
+    inputs: readonly IBpInputPort<IBpDataType>[];
     /**
      * 指定数据的输出端口
      */
-    outputs: readonly OutputPort<DataType>[];
+    outputs: readonly IBpOutputPort<IBpDataType>[];
     /**
      * 指定执行流的输入端口
      */
-    enters: readonly FlowInputPort[];
+    enters: readonly IBpEnterPort[];
     /**
      * 指定执行流的输出端口
      */
-    exits: readonly FlowOutputPort[];
+    exits: readonly IBpExitPort[];
 }
 
 /**
@@ -34,11 +32,11 @@ interface FlowNode extends NodeBase {
  * 
  * 表示一个函数的入口
  */
-interface EntryNode<TArguments extends ArgumentDataTypes> extends FlowNode {
+export interface IBpEntryNode<TArguments extends BpArgumentDataTypes> extends IBpFlowNode {
     inputs: readonly [];
-    outputs: EntryOutputPorts<TArguments>;
+    outputs: BpEntryOutputPorts<TArguments>;
     enters: readonly [];
-    exits: readonly [FlowOutputPort];
+    exits: readonly [IBpExitPort];
 }
 
 /**
@@ -50,10 +48,10 @@ interface EntryNode<TArguments extends ArgumentDataTypes> extends FlowNode {
  * 允许一个蓝图中多个显示上的出口节点，但都指向同一个出口节点
  * 多个显示上的出口节点更便于蓝图使用
  */
-interface EndNode<TReturn extends ReturnDataType> extends FlowNode {
-    inputs: EndInputPorts<TReturn>;
+export interface IBpEndNode<TReturn extends BpReturnDataType> extends IBpFlowNode {
+    inputs: BpEndInputPorts<TReturn>;
     outputs: readonly [];
-    enters: readonly [FlowInputPort];
+    enters: readonly [IBpEnterPort];
     exits: readonly [];
 }
 
@@ -63,17 +61,17 @@ interface EndNode<TReturn extends ReturnDataType> extends FlowNode {
  * 
  * @abstract
  */
-interface InstNode extends FlowNode {
+export interface IBpInstNode extends IBpFlowNode {
     /**
      * 进入端口
      * -> 开始执行
      */
-    enters: readonly [FlowInputPort];
+    enters: readonly [IBpEnterPort];
     /**
      * 退出端口
      * -> 结束执行
      */
-    exits: readonly [FlowOutputPort];
+    exits: readonly [IBpExitPort];
 }
 
 /**
@@ -82,18 +80,18 @@ interface InstNode extends FlowNode {
  * 
  * @abstract
  */
-interface ComplexInstNode extends FlowNode {
+export interface IBpComplexInstNode extends IBpFlowNode {
     /**
      * 进入端口
      * -> 开始执行
      */
-    enters: readonly [FlowInputPort];
+    enters: readonly [IBpEnterPort];
     /**
      * 退出端口
      * -> 构造参数流程
      * -> 结束执行
      */
-    exits: readonly [FlowSublinePort, FlowOutputPort];
+    exits: readonly [IBpSublinePort, IBpExitPort];
 }
 
 /**
@@ -102,9 +100,4 @@ interface ComplexInstNode extends FlowNode {
  * 
  * @abstract
  */
-interface BranchNode extends FlowNode {}
-
-interface BlockNode extends FlowNode {
-    head: FlowNode;
-    tail: FlowNode;
-}
+export interface IBpBranchNode extends IBpFlowNode {}

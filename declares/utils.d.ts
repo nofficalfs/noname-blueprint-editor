@@ -1,75 +1,74 @@
-/// <reference path="./dataType.d.ts" />
-/// <reference path="./port.d.ts" />
-
-// ### 工具类型
+import { IBpDataType, IBpVoid } from "./dataType";
+import { IBpInputPort, IBpOutputPort } from "./port";
+import { IBpExpression } from "./flow/expression";
 
 /**
  * 表示参数的数据类型集合
  * 
  * 可以使用@see {InputPorts} 和@see {EntryOutputPorts} 转换成端口数组类型
  */
-type ArgumentDataTypes = readonly DataType[];
+export type BpArgumentDataTypes = readonly IBpDataType[];
 
 /**
  * 表示返回值的数据类型
  * 
  * 可以使用@see {OutputPorts} 和@see {EndInputPorts} 转换成端口数组类型
  */
-type ReturnDataType = DataType;
+export type BpReturnDataType = IBpDataType;
 
 /**
  * 将数据类型数组转换成对应类型的输入端口数组
  */
-type InputPorts<TTypes extends ArgumentDataTypes> = 
+export type BpInputPorts<TTypes extends BpArgumentDataTypes> = 
     TTypes extends readonly [] 
         ? readonly [] :
-    TTypes extends readonly [infer THead extends DataType, ...infer TTail extends ArgumentDataTypes]
-        ? readonly [InputPort<THead>, ...InputPorts<TTail>] :
-    TTypes extends ReadonlyArray<infer TType extends DataType> 
-        ? readonly InputPort<TType>[]
+    TTypes extends readonly [infer THead extends IBpDataType, ...infer TTail extends BpArgumentDataTypes]
+        ? readonly [IBpInputPort<THead>, ...BpInputPorts<TTail>] :
+    TTypes extends ReadonlyArray<infer TType extends IBpDataType> 
+        ? readonly IBpInputPort<TType>[]
         : never;
 
 /**
  * 将数据类型转换成对应类型的输出端口数组
  */
-type OutputPorts<TTypes extends ArgumentDataTypes> = 
+export type BpOutputPorts<TTypes extends BpArgumentDataTypes> = 
     TTypes extends readonly [] 
         ? readonly [] :
-    TTypes extends readonly [infer THead extends DataType, ...infer TTail extends ArgumentDataTypes]
-        ? readonly [OutputPort<THead>, ...OutputPorts<TTail>] :
-    TTypes extends ReadonlyArray<infer TType extends DataType> 
-        ? readonly OutputPort<TType>[]
+    TTypes extends readonly [infer THead extends IBpDataType, ...infer TTail extends BpArgumentDataTypes]
+        ? readonly [IBpOutputPort<THead>, ...BpOutputPorts<TTail>] :
+    TTypes extends ReadonlyArray<infer TType extends IBpDataType> 
+        ? readonly IBpOutputPort<TType>[]
         : never;
 
 /**
  * 将数据类型数组转换成对应类型的输出端口数组
  */
-type EntryOutputPorts<TTypes extends ArgumentDataTypes> = 
+export type BpEntryOutputPorts<TTypes extends BpArgumentDataTypes> = 
     TTypes extends readonly [] 
         ? readonly [] :
-    TTypes extends readonly [infer THead extends DataType, ...infer TTail extends ArgumentDataTypes]
-        ? readonly [OutputPort<THead>, ...EntryOutputPorts<TTail>] :
-    TTypes extends ReadonlyArray<infer TType extends DataType> 
-        ? readonly OutputPort<TType>[]
+    TTypes extends readonly [infer THead extends IBpDataType, ...infer TTail extends BpArgumentDataTypes]
+        ? readonly [IBpOutputPort<THead>, ...BpEntryOutputPorts<TTail>] :
+    TTypes extends ReadonlyArray<infer TType extends IBpDataType> 
+        ? readonly IBpOutputPort<TType>[]
         : never;
 
 /**
  * 将数据类型转换成对应类型的输入端口数组
  */
-type EndInputPorts<TReturn extends ReturnDataType> = TReturn extends VoidType
-    ? readonly [] : readonly [InputPort<TReturn>];
+export type BpEndInputPorts<TReturn extends BpReturnDataType> = TReturn extends IBpVoid
+    ? readonly [] : readonly [IBpInputPort<TReturn>];
     
 /**
  * 指定函数的不定数量与类型的输入端口
  */
-type FunctionInputPorts = readonly InputPort<DataType>[];
+export type BpFunctionInputPorts = readonly IBpInputPort<IBpDataType>[];
 
 /**
  * 指定函数的不定类型的输出端口
  */
-type FunctionOutputPorts = readonly [OutputPort<DataType>] | readonly [];
+export type BpFunctionOutputPorts = readonly [IBpOutputPort<IBpDataType>] | readonly [];
 
 /**
  * 指定函数的不定类型的实参表达式输入
  */
-type FunctionArguments = Expression<DataType>[];
+export type BpFunctionArguments = IBpExpression<IBpDataType>[];

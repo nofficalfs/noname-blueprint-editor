@@ -1,15 +1,13 @@
-/// <reference path="./dataType.d.ts" />
-/// <reference path="./flowNode.d.ts" />
-/// <reference path="./utils.d.ts" />
-
-// ### 结构节点
+import { IBpBoolean, IBpVoid, IBpPlayer, IBpGameEvent, IBpString } from "./dataType"
+import { IBpEntryNode, IBpEndNode } from "./flowNode";
+import { BpArgumentDataTypes, BpReturnDataType } from "./utils";
 
 /**
  * 表示内容项的结构节点
  * 
  * @abstract
  */
-interface StructNode {
+export interface IBpStructNode {
     /**
      * 表示节点的唯一标识ID
      */
@@ -23,7 +21,7 @@ interface StructNode {
  * 
  * @abstract
  */
-interface AttachedStructNode {}
+export interface IBpAttachedStructNode {}
 
 /**
  * 游离的内容项结构节点
@@ -32,7 +30,7 @@ interface AttachedStructNode {}
  * 
  * @abstract
  */
-interface DetachedStructNode {}
+export interface IBpDetachedStructNode {}
 
 /**
  * 表示元数据的数据表
@@ -41,7 +39,7 @@ interface DetachedStructNode {}
  * 
  * @abstract
  */
-interface MetadataNode<TTable extends MetadataTable> extends DetachedStructNode {
+export interface IBpMetadataNode<TTable extends IBpMetadataTable> extends IBpDetachedStructNode {
     /**
      * 表示当前内容项的数据集
      */
@@ -55,7 +53,7 @@ interface MetadataNode<TTable extends MetadataTable> extends DetachedStructNode 
  * 
  * @abstract
  */
-interface FlowStructNode<TArguments extends ArgumentDataTypes, TReturn extends ReturnDataType> extends AttachedStructNode {
+export interface IBpFlowStructNode<TArguments extends BpArgumentDataTypes, TReturn extends BpReturnDataType> extends IBpAttachedStructNode {
     /**
      * 表示输入的参数类型
      */
@@ -67,52 +65,52 @@ interface FlowStructNode<TArguments extends ArgumentDataTypes, TReturn extends R
     /**
      * 表示蓝图执行流的入口节点
      */
-    entryNode: EntryNode<TArguments>;
+    entryNode: IBpEntryNode<TArguments>;
     /**
      * 表示蓝图执行流的出口节点
      */
-    endNode: EndNode<TReturn>;
+    endNode: IBpEndNode<TReturn>;
 }
 
 /**
  * 表示主动技(enable)或者被动技(trigger)的时机
  */
-interface TimingsNode<TTiming extends Timing> extends AttachedStructNode {
+export interface IBpTimingsNode<TTiming extends IBpTiming> extends IBpAttachedStructNode {
     /**
      * 表示时机的集合
      */
-    timings: TimingSet<TTiming>;
+    timings: IBpTimingSet<TTiming>;
 }
 
 /**
  * 表示技能的元数据
  */
-interface SkillMetadataNode extends MetadataNode<SkillMetadataTable> {}
+export interface IBpSkillMetadataNode extends IBpMetadataNode<IBpSkillMetadataTable> {}
 
 /**
  * 表示子技能的元数据
  */
-interface SubskillMetadataNode extends MetadataNode<SubskillMetadataTable> {}
+export interface IBpSubskillMetadataNode extends IBpMetadataNode<IBpSubskillMetadataTable> {}
 
 /**
  * 表示卡牌的元数据
  */
-interface CardMetadataNode extends MetadataNode<CardMetadataTable> {}
+export interface IBpCardMetadataNode extends IBpMetadataNode<IBpCardMetadataTable> {}
 
 /**
  * 表示技能发动或卡牌使用前的检查函数
  */
-interface FilterStructNode extends FlowStructNode<[EventType, PlayerType], BooleanType> {}
+export interface IBpFilterStructNode extends IBpFlowStructNode<[IBpGameEvent, IBpPlayer, IBpString], IBpBoolean> {}
 
 /**
  * 表示技能发动或卡牌使用的内容
  */
-interface ContentStructNode extends FlowStructNode<[], VoidType> {}
+export interface IBpContentStructNode extends IBpFlowStructNode<[], IBpVoid> {}
 
 /**
  * 表示技能使用的单个mod函数
  */
-interface ModStructNode<TArguments extends ArgumentDataTypes, TReturn extends ReturnDataType> extends FlowStructNode<TArguments, TReturn> {
+export interface IBpModifierStructNode<TArguments extends BpArgumentDataTypes, TReturn extends BpReturnDataType> extends IBpFlowStructNode<TArguments, TReturn> {
     /**
      * mod函数使用的mod名称，与checkMod对应
      */
@@ -122,19 +120,17 @@ interface ModStructNode<TArguments extends ArgumentDataTypes, TReturn extends Re
 
 // ...
 
-// ### 数据表定义
-
 /**
  * 数据表的元数据
  * 
  * @abstract
  */
-interface MetadataTable {}
+export interface IBpMetadataTable {}
 
 /**
  * 表示技能的元数据
  */
-interface SkillMetadataTable extends MetadataTable {
+export interface IBpSkillMetadataTable extends IBpMetadataTable {
     forced: boolean;
     locked: boolean;
     charlotte: boolean;
@@ -144,15 +140,15 @@ interface SkillMetadataTable extends MetadataTable {
 /**
  * 表示子技能的元数据
  */
-interface SubskillMetadataTable extends SkillMetadataTable {
+export interface IBpSubskillMetadataTable extends IBpSkillMetadataTable {
     // ...
 }
 
 /**
  * 表示卡牌的元数据
  */
-interface CardMetadataTable extends MetadataTable {
-    type: CardKind;
+export interface IBpCardMetadataTable extends IBpMetadataTable {
+    type: BpCardKind;
     image: string;
     // ...
 }
@@ -160,19 +156,22 @@ interface CardMetadataTable extends MetadataTable {
 /**
  * 表示卡牌的类型
  */
-type CardKind = 'basic' | 'trick' | 'delay' | 'equip';
-
-// ### 时机类型
+export const enum BpCardKind {
+    basic,
+    trick,
+    delay,
+    equip,
+}
 
 /**
  * 时机类型
  */
-interface Timing {}
+export interface IBpTiming {}
 
 /**
  * 表示一个被动技的时机
  */
-interface TriggerTiming {
+export interface IBpTriggerTiming {
     role: string;
     on: string;
 }
@@ -180,14 +179,14 @@ interface TriggerTiming {
 /**
  * 表示一个主动技的时机
  */
-interface EnableTiming {
+export interface IBpEnableTiming {
     on: string;
 }
 
 /**
  * 表示多个时机的集合
  */
-interface TimingSet<TTiming extends Timing> {
+export interface IBpTimingSet<TTiming extends IBpTiming> {
     [index: number]: TTiming;
     length: number;
 }

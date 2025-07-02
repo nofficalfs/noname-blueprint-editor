@@ -1,12 +1,10 @@
-// ## 蓝图节点
-
 /*
 继承层级:
 NodeBase
     StructNode
         AttachedStructNode
             TimingsNode
-            PresetFlowFunctionNode
+            FlowStructNode
                 FilterStructNode
                 ContentStructNode
                 ModStructNode
@@ -16,13 +14,6 @@ NodeBase
                 SkillMetadataNode
                 SubskillMetadataNode
                 CardMetadataNode
-
-            UserFunctionNode
-                UserFlowFunctionNode
-                UserCodeFunctionNode
-
-        FunctionNode
-            FlowFunctionNode
 
     FlowNode
         EntryNode
@@ -52,4 +43,4 @@ NodeBase
  * 
  * @abstract
  */
-interface NodeBase {}
+export interface IBpNodeBase {}

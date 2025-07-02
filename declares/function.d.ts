@@ -1,9 +1,13 @@
+import { IBpContentItem } from "./core";
+import { IBpEntryNode, IBpEndNode } from "./flowNode";
+import { BpArgumentDataTypes, BpReturnDataType } from "./utils";
+
 /**
  * 表示一个函数
  * 
  * @abstract
  */
-interface FunctionItem<TArguments extends ArgumentDataTypes, TReturn extends ReturnDataType> extends ContentItem {
+export interface IBpFunction<TArguments extends BpArgumentDataTypes, TReturn extends BpReturnDataType> extends IBpContentItem {
     /**
      * 表示输入的参数类型
      */
@@ -19,8 +23,8 @@ interface FunctionItem<TArguments extends ArgumentDataTypes, TReturn extends Ret
  * 
  * @abstract
  */
-interface CodeFunctionItem<TArguments extends ArgumentDataTypes, TReturn extends ReturnDataType>
-    extends FunctionItem<TArguments, TReturn> {
+export interface IBpCodeFunction<TArguments extends BpArgumentDataTypes, TReturn extends BpReturnDataType>
+    extends IBpFunction<TArguments, TReturn> {
     /**
      * 表示当前函数的代码内容
      */
@@ -32,20 +36,20 @@ interface CodeFunctionItem<TArguments extends ArgumentDataTypes, TReturn extends
  * 
  * @abstract
  */
-interface FlowFunctionItem<TArguments extends ArgumentDataTypes, TReturn extends ReturnDataType>
-    extends FunctionItem<TArguments, TReturn> {
+export interface IBpFlowFunction<TArguments extends BpArgumentDataTypes, TReturn extends BpReturnDataType>
+    extends IBpFunction<TArguments, TReturn> {
     /**
      * 表示蓝图执行流的入口节点
      */
-    entryNode: EntryNode<TArguments>;
+    entryNode: IBpEntryNode<TArguments>;
     /**
      * 表示蓝图执行流的出口节点
      */
-    endNode: EndNode<TReturn>;
+    endNode: IBpEndNode<TReturn>;
 }
 
-interface BuiltinFunction<TSymbol extends string, TArguments extends ArgumentDataTypes, TReturn extends ReturnDataType>
-    extends CodeFunctionItem<TArguments, TReturn> {
+export interface IBpBuiltinFunction<TSymbol extends string, TArguments extends BpArgumentDataTypes, TReturn extends BpReturnDataType>
+    extends IBpCodeFunction<TArguments, TReturn> {
     /**
      * 表示内建函数的名称
      */
@@ -61,15 +65,15 @@ interface BuiltinFunction<TSymbol extends string, TArguments extends ArgumentDat
  * 
  * @abstract
  */
-interface UserFunction extends FunctionItem<ArgumentDataTypes, ReturnDataType> {}
+export interface UserFunction extends IBpFunction<BpArgumentDataTypes, BpReturnDataType> {}
 
 /**
  * 表示通过编辑器生成的用户定义的函数
  */
-interface UserFlowFunction extends UserFunction, FlowFunctionItem<ArgumentDataTypes, ReturnDataType> {}
+export interface UserFlowFunction extends UserFunction, IBpFlowFunction<BpArgumentDataTypes, BpReturnDataType> {}
 
 /**
  * 表示一个用户定义函数
  * 由用户自行管理类型与返回值，但可能出现编辑器无法预料的错误
  */
-interface UserCodeFunction extends UserFunction, CodeFunctionItem<ArgumentDataTypes, ReturnDataType> {}
+export interface UserCodeFunction extends UserFunction, IBpCodeFunction<BpArgumentDataTypes, BpReturnDataType> {}
