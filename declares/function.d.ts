@@ -1,4 +1,5 @@
 import { IBpContentItem } from "./core";
+import { IBpData } from "./dataType";
 import { IBpEntryNode, IBpEndNode } from "./flowNode";
 import { BpArgumentDataTypes, BpReturnDataType } from "./utils";
 
@@ -48,8 +49,26 @@ export interface IBpFlowFunction<TArguments extends BpArgumentDataTypes, TReturn
     endNode: IBpEndNode<TReturn>;
 }
 
+/**
+ * 表示一个内建函数
+ */
 export interface IBpBuiltinFunction<TSymbol extends string, TArguments extends BpArgumentDataTypes, TReturn extends BpReturnDataType>
     extends IBpCodeFunction<TArguments, TReturn> {
+    /**
+     * 表示内建函数的名称
+     */
+    symbol: TSymbol;
+    /**
+     * 内建函数标志
+     */
+    builtin: true;
+}
+
+/**
+ * 表示一个内建的链式函数
+ */
+export interface IBpBuiltinLinq<TSymbol extends string, TInput extends IBpData, TRest extends BpArgumentDataTypes, TOutput extends IBpData>
+    extends IBpCodeFunction<[TInput, ...TRest], TOutput> {
     /**
      * 表示内建函数的名称
      */

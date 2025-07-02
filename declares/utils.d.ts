@@ -1,4 +1,4 @@
-import { IBpDataType, IBpVoid } from "./dataType";
+import { IBpData, IBpVoid } from "./dataType";
 import { IBpInputPort, IBpOutputPort } from "./port";
 import { IBpExpression } from "./flow/expression";
 
@@ -7,14 +7,14 @@ import { IBpExpression } from "./flow/expression";
  * 
  * 可以使用@see {InputPorts} 和@see {EntryOutputPorts} 转换成端口数组类型
  */
-export type BpArgumentDataTypes = readonly IBpDataType[];
+export type BpArgumentDataTypes = readonly IBpData[];
 
 /**
  * 表示返回值的数据类型
  * 
  * 可以使用@see {OutputPorts} 和@see {EndInputPorts} 转换成端口数组类型
  */
-export type BpReturnDataType = IBpDataType;
+export type BpReturnDataType = IBpData;
 
 /**
  * 将数据类型数组转换成对应类型的输入端口数组
@@ -22,9 +22,9 @@ export type BpReturnDataType = IBpDataType;
 export type BpInputPorts<TTypes extends BpArgumentDataTypes> = 
     TTypes extends readonly [] 
         ? readonly [] :
-    TTypes extends readonly [infer THead extends IBpDataType, ...infer TTail extends BpArgumentDataTypes]
+    TTypes extends readonly [infer THead extends IBpData, ...infer TTail extends BpArgumentDataTypes]
         ? readonly [IBpInputPort<THead>, ...BpInputPorts<TTail>] :
-    TTypes extends ReadonlyArray<infer TType extends IBpDataType> 
+    TTypes extends ReadonlyArray<infer TType extends IBpData> 
         ? readonly IBpInputPort<TType>[]
         : never;
 
@@ -34,9 +34,9 @@ export type BpInputPorts<TTypes extends BpArgumentDataTypes> =
 export type BpOutputPorts<TTypes extends BpArgumentDataTypes> = 
     TTypes extends readonly [] 
         ? readonly [] :
-    TTypes extends readonly [infer THead extends IBpDataType, ...infer TTail extends BpArgumentDataTypes]
+    TTypes extends readonly [infer THead extends IBpData, ...infer TTail extends BpArgumentDataTypes]
         ? readonly [IBpOutputPort<THead>, ...BpOutputPorts<TTail>] :
-    TTypes extends ReadonlyArray<infer TType extends IBpDataType> 
+    TTypes extends ReadonlyArray<infer TType extends IBpData> 
         ? readonly IBpOutputPort<TType>[]
         : never;
 
@@ -46,9 +46,9 @@ export type BpOutputPorts<TTypes extends BpArgumentDataTypes> =
 export type BpEntryOutputPorts<TTypes extends BpArgumentDataTypes> = 
     TTypes extends readonly [] 
         ? readonly [] :
-    TTypes extends readonly [infer THead extends IBpDataType, ...infer TTail extends BpArgumentDataTypes]
+    TTypes extends readonly [infer THead extends IBpData, ...infer TTail extends BpArgumentDataTypes]
         ? readonly [IBpOutputPort<THead>, ...BpEntryOutputPorts<TTail>] :
-    TTypes extends ReadonlyArray<infer TType extends IBpDataType> 
+    TTypes extends ReadonlyArray<infer TType extends IBpData> 
         ? readonly IBpOutputPort<TType>[]
         : never;
 
@@ -61,14 +61,14 @@ export type BpEndInputPorts<TReturn extends BpReturnDataType> = TReturn extends 
 /**
  * 指定函数的不定数量与类型的输入端口
  */
-export type BpFunctionInputPorts = readonly IBpInputPort<IBpDataType>[];
+export type BpFunctionInputPorts = readonly IBpInputPort<IBpData>[];
 
 /**
  * 指定函数的不定类型的输出端口
  */
-export type BpFunctionOutputPorts = readonly [IBpOutputPort<IBpDataType>] | readonly [];
+export type BpFunctionOutputPorts = readonly [IBpOutputPort<IBpData>] | readonly [];
 
 /**
  * 指定函数的不定类型的实参表达式输入
  */
-export type BpFunctionArguments = IBpExpression<IBpDataType>[];
+export type BpFunctionArguments = IBpExpression<IBpData>[];

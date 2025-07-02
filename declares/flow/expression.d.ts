@@ -1,4 +1,4 @@
-import { IBpDataType, IBpBasicData } from "../dataType";
+import { IBpData, IBpBasicData } from "../dataType";
 import { BpFunctionArguments } from "../utils";
 
 /**
@@ -6,12 +6,12 @@ import { BpFunctionArguments } from "../utils";
  * 
  * @abstract
  */
-export interface IBpExpression<TType extends IBpDataType> { }
+export interface IBpExpression<TType extends IBpData> { }
 
 /**
  * 表示一个数据输入的表达式
  */
-export interface IBpInputExpression<TType extends IBpDataType> extends IBpExpression<TType> {
+export interface IBpInputExpression<TType extends IBpData> extends IBpExpression<TType> {
     /**
      * 指示当前表达式的数据输入端口
      */
@@ -31,7 +31,7 @@ export interface IBpConstantExpression<TType extends IBpBasicData> extends IBpEx
 /**
  * 表示一个二元表达式
  */
-export interface IBpBinaryExpression<TLeft extends IBpDataType, TRight extends IBpDataType, TResult extends IBpDataType>
+export interface IBpBinaryExpression<TLeft extends IBpData, TRight extends IBpData, TResult extends IBpData>
     extends IBpExpression<TResult> {
     /**
      * 左侧表达式
@@ -46,7 +46,7 @@ export interface IBpBinaryExpression<TLeft extends IBpDataType, TRight extends I
 /**
  * 表示一个一元表达式
  */
-export interface IBpUnaryExpression<TType extends IBpDataType> extends IBpExpression<TType> {
+export interface IBpUnaryExpression<TType extends IBpData> extends IBpExpression<TType> {
     /**
      * 输入表达式
      */
@@ -56,7 +56,7 @@ export interface IBpUnaryExpression<TType extends IBpDataType> extends IBpExpres
 /**
  * 表示一个函数调用表达式
  */
-export interface IBpCallExpression<TType extends IBpDataType> extends IBpExpression<TType> {
+export interface IBpCallExpression<TType extends IBpData> extends IBpExpression<TType> {
     /**
      * 被调用的函数的标识符
      */
@@ -70,7 +70,7 @@ export interface IBpCallExpression<TType extends IBpDataType> extends IBpExpress
 /**
  * 表示一个选择器表达式
  */
-export interface IBpSelectExpression<TInput extends IBpDataType, TOutput extends IBpDataType> extends IBpExpression<TOutput> {
+export interface IBpSelectExpression<TInput extends IBpData, TOutput extends IBpData> extends IBpExpression<TOutput> {
     /**
      * 输入表达式
      */

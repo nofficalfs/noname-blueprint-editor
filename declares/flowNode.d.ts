@@ -1,4 +1,4 @@
-import { IBpDataType } from "./dataType";
+import { IBpData } from "./dataType";
 import { IBpNodeBase } from "./nodeBase";
 import { IBpInputPort, IBpOutputPort, IBpEnterPort, IBpExitPort, IBpSublinePort } from "./port";
 import { BpArgumentDataTypes, BpReturnDataType, BpEntryOutputPorts, BpEndInputPorts } from "./utils";
@@ -12,11 +12,11 @@ export interface IBpFlowNode extends IBpNodeBase {
     /**
      * 指定数据的输入端口
      */
-    inputs: readonly IBpInputPort<IBpDataType>[];
+    inputs: readonly IBpInputPort<IBpData>[];
     /**
      * 指定数据的输出端口
      */
-    outputs: readonly IBpOutputPort<IBpDataType>[];
+    outputs: readonly IBpOutputPort<IBpData>[];
     /**
      * 指定执行流的输入端口
      */

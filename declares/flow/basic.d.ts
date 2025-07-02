@@ -1,4 +1,4 @@
-import { IBpDataType } from "../dataType";
+import { IBpData } from "../dataType";
 import { IBpInstNode } from "../flowNode";
 import { IBpOutputPort } from "../port";
 import { BpFunctionInputPorts, BpArgumentDataTypes, BpInputPorts } from "../utils";
@@ -27,7 +27,7 @@ export interface IBpSubroutineNode extends IBpBasicInstNode {
     outputs: readonly [];
 }
 
-export interface IBpExpressionNode<TInputs extends BpArgumentDataTypes, TOutput extends IBpDataType>
+export interface IBpExpressionNode<TInputs extends BpArgumentDataTypes, TOutput extends IBpData>
     extends IBpBasicInstNode {
     /**
      * 表达式参数输入端口

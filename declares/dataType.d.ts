@@ -45,7 +45,7 @@ PlayerVCardKind
  * 
  * @abstract
  */
-export interface IBpDataType {
+export interface IBpData {
     /**
      * 数据有效性验证器
      * 
@@ -61,7 +61,7 @@ export type BpDataFilter = (data: any) => boolean;
  * 
  * @abstract
  */
-export interface IBpBasicData extends IBpDataType {}
+export interface IBpBasicData extends IBpData {}
 
 /**
  * 表示字符串类型
@@ -86,19 +86,19 @@ export interface IBpVoid extends IBpBasicData {}
 /**
  * 表示复杂数据类型
  */
-export interface IBpComplexData extends IBpDataType {}
+export interface IBpComplexData extends IBpData {}
 
 /**
  * 表示可迭代的集合类型
  */
-export interface IBpArray<TData extends IBpDataType> extends IBpComplexData {}
+export interface IBpArray<TData extends IBpData> extends IBpComplexData {}
 
 /**
  * 表示卡牌游戏中实际对应的实体类型
  * 
  * @abstract
  */
-export interface IBpEntityData extends IBpDataType {}
+export interface IBpEntityData extends IBpData {}
 
 /**
  * 表示一位玩家
@@ -138,7 +138,7 @@ export interface IBpCardpile extends IBpEntityData, IBpCardSet {}
  * 
  * @abstract
  */
-export interface IBpCoreData extends IBpDataType {}
+export interface IBpCoreData extends IBpData {}
 
 /**
  * 表示一个游戏结算事件
@@ -152,7 +152,7 @@ export interface IBpGameEvent extends IBpCoreData, IBpPlayerStorage<BpEventPlaye
  * 
  * @abstract
  */
-export interface IBpTargetData extends IBpDataType {}
+export interface IBpTargetData extends IBpData {}
 
 /**
  * 表示包含任意个可能重复的玩家组

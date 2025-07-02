@@ -1,4 +1,4 @@
-import { IBpDataType, IBpBoolean, IBpNumber, IBpArray } from "../dataType";
+import { IBpData, IBpBoolean, IBpNumber, IBpArray } from "../dataType";
 import { IBpBranchNode } from "../flowNode";
 import { IBpInputPort, IBpOutputPort, IBpEnterPort, IBpExitPort, IBpHolePort, IBpSublinePort } from "../port";
 
@@ -86,7 +86,7 @@ export interface IBpForNode extends IBpLoopNodeBase {
  * 
  * 依照给定的迭代数组长度发出对应次数的子执行流脉冲
  */
-export interface IBpForOfNode<TData extends IBpDataType> extends IBpLoopNodeBase {
+export interface IBpForOfNode<TData extends IBpData> extends IBpLoopNodeBase {
     /**
      * 输入端口:
      * -> 迭代的数组

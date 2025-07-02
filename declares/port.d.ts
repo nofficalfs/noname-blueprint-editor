@@ -1,4 +1,4 @@
-import { IBpDataType } from "./dataType";
+import { IBpData } from "./dataType";
 import { IBpInstNode } from "./flowNode";
 
 /*
@@ -37,12 +37,12 @@ export interface IBpPortBase {
  * 
  * @abstract
  */
-export interface IBpDataPort<TType extends IBpDataType> extends IBpPortBase {}
+export interface IBpDataPort<TType extends IBpData> extends IBpPortBase {}
 
 /**
  * 表示节点接收输入的数据端口
  */
-export interface IBpInputPort<TType extends IBpDataType> extends IBpDataPort<TType> {
+export interface IBpInputPort<TType extends IBpData> extends IBpDataPort<TType> {
     /**
      * 表示当前端口的数据状态
      * 
@@ -51,7 +51,7 @@ export interface IBpInputPort<TType extends IBpDataType> extends IBpDataPort<TTy
     value: TType;
 }
 
-export interface IBpOutputPort<TType extends IBpDataType> extends IBpDataPort<TType> {
+export interface IBpOutputPort<TType extends IBpData> extends IBpDataPort<TType> {
     /**
      * 表示执行时向哪些端口输出数据
      */
