@@ -31,8 +31,8 @@ export interface IBpConstantExpression<TType extends IBpBasicData> extends IBpEx
 /**
  * 表示一个二元表达式
  */
-export interface IBpBinaryExpression<TLeft extends IBpData, TRight extends IBpData, TResult extends IBpData>
-    extends IBpExpression<TResult> {
+export interface IBpBinaryExpression<TLeft extends IBpData, TRight extends IBpData, TOutput extends IBpData>
+    extends IBpExpression<TOutput> {
     /**
      * 左侧表达式
      */
@@ -41,16 +41,24 @@ export interface IBpBinaryExpression<TLeft extends IBpData, TRight extends IBpDa
      * 右侧表达式
      */
     right: IBpExpression<TRight>;
+    /**
+     * 操作符
+     */
+    operator: BpBinaryOperator;
 }
 
 /**
  * 表示一个一元表达式
  */
-export interface IBpUnaryExpression<TType extends IBpData> extends IBpExpression<TType> {
+export interface IBpUnaryExpression<TInput extends IBpData, TOutput extends IBpData> extends IBpExpression<TOutput> {
     /**
      * 输入表达式
      */
-    input: IBpExpression<TType>;
+    input: IBpExpression<TInput>;
+    /**
+     * 操作符
+     */
+    operator: BpUnaryOperator;
 }
 
 /**
@@ -64,7 +72,7 @@ export interface IBpCallExpression<TType extends IBpData> extends IBpExpression<
     /**
      * 函数的参数表达式
      */
-    arguments: BpFunctionArguments;
+    readonly arguments: BpFunctionArguments;
 }
 
 /**
@@ -102,6 +110,10 @@ export const enum BpBinaryOperator {
      * 数值相除
      */
     numberDivide,
+    /**
+     * 整数相除
+     */
+    numberIntDivide,
     /**
      * 数值取余
      */

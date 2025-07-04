@@ -57,8 +57,8 @@ export interface IBpWhileNode extends IBpLoopNodeBase {
      * 输入端口:
      * -> 分支条件
      */
-    inputs: readonly [IBpInputPort<IBpBoolean>];
-    outputs: readonly [];
+    readonly inputs: [IBpInputPort<IBpBoolean>];
+    readonly outputs: [];
 }
 
 /**
@@ -73,12 +73,12 @@ export interface IBpForNode extends IBpLoopNodeBase {
      * -> 终止值 (i < x) // @issue 终止值是否应该包含在循环区间中? (即是使用`i < x`还是`i <= x`)
      * -> 步进值 (i += x)
      */
-    inputs: readonly [IBpInputPort<IBpNumber>, IBpInputPort<IBpNumber>, IBpInputPort<IBpNumber>];
+    readonly inputs: [IBpInputPort<IBpNumber>, IBpInputPort<IBpNumber>, IBpInputPort<IBpNumber>];
     /**
      * 输出端口:
      * -> 当前循环值 i
      */
-    outputs: readonly [IBpOutputPort<IBpNumber>];
+    readonly outputs: [IBpOutputPort<IBpNumber>];
 }
 
 /**
@@ -91,10 +91,10 @@ export interface IBpForOfNode<TData extends IBpData> extends IBpLoopNodeBase {
      * 输入端口:
      * -> 迭代的数组
      */
-    inputs: readonly [IBpInputPort<IBpArray<TData>>];
+    readonly inputs: [IBpInputPort<IBpArray<TData>>];
     /**
      * 输出端口:
      * -> 当前迭代对象
      */
-    outputs: readonly [IBpOutputPort<TData>];
+    readonly outputs: [IBpOutputPort<TData>];
 }

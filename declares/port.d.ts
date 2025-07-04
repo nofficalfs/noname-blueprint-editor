@@ -1,5 +1,5 @@
 import { IBpData } from "./dataType";
-import { IBpInstNode } from "./flowNode";
+import { IBpFlowNode } from "./flowNode";
 
 /*
 继承层级:
@@ -25,11 +25,11 @@ export interface IBpPortBase {
     /**
      * 表示端口在当前节点中的唯一标识ID
      */
-    name: string;
+    readonly name: string;
     /**
      * 标识端口所属的节点
      */
-    node: IBpInstNode;
+    readonly node: IBpFlowNode;
 }
 
 /**
@@ -44,18 +44,22 @@ export interface IBpDataPort<TType extends IBpData> extends IBpPortBase {}
  */
 export interface IBpInputPort<TType extends IBpData> extends IBpDataPort<TType> {
     /**
-     * 表示当前端口的数据状态
+     * 输入数据的默认值
      * 
-     * @ignore 此项仅应被解释器参考和使用
+     * 如果端口没有找到对应的数据则使用此项
      */
-    value: TType;
+    initalValue: TType | null;
+    /**
+     * 当前依赖的输出端口
+     */
+    get target(): IBpOutputPort<TType> | null;
 }
 
 export interface IBpOutputPort<TType extends IBpData> extends IBpDataPort<TType> {
     /**
-     * 表示执行时向哪些端口输出数据
+     * 表示执行时向哪些输入端口输出数据
      */
-    targets: IBpInputPort<TType>[];
+    readonly targets: IBpInputPort<TType>[];
 }
 /**
  * 执行流端口

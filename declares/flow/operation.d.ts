@@ -9,7 +9,7 @@ import { BpInputPorts } from "../utils";
  * @abstract
  */
 export interface IBpOperationNode extends IBpComplexInstNode {
-    outputs: readonly [IBpOutputPort<IBpGameEvent>];
+    readonly outputs: [IBpOutputPort<IBpGameEvent>];
 }
 
 // 牌移动
@@ -23,7 +23,7 @@ export interface IBpOperationNode extends IBpComplexInstNode {
  * 表示玩家摸牌的操作
  */
 export interface IBpPlayerDrawNode extends IBpOperationNode {
-    inputs: BpInputPorts<[IBpPlayer, IBpNumber]>;
+    readonly inputs: BpInputPorts<[IBpPlayer, IBpNumber]>;
 }
 
 // ...

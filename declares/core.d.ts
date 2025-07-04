@@ -3,25 +3,24 @@
 export interface IBpProject {
     // 也许是扩展ID吧喵
     name: string;
-    config: IBpProjectConfig;
-
+    readonly config: IBpProjectConfig;
 }
 
 export interface IBpProjectConfig {
     author: string;
     description: string;
     version: string;
-    dependencies: IBpProjectDependence[];
+    readonly dependencies: IBpProjectDependence[];
 }
 
 export interface IBpProjectDependence {
-    name: string;
-    minVersion?: string;
-    maxVersion?: string;
+    readonly name: string;
+    readonly minVersion?: string;
+    readonly maxVersion?: string;
 }
 
 export interface IBpContentItem {
-    kind: BpContentItemKind;
+    readonly kind: BpContentItemKind;
     symbol: string;
 }
 

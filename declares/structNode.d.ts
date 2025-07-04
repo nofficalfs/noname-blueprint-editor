@@ -43,7 +43,7 @@ export interface IBpMetadataNode<TTable extends IBpMetadataTable> extends IBpDet
     /**
      * 表示当前内容项的数据集
      */
-    data: TTable;
+    readonly data: TTable;
 }
 
 /**
@@ -57,7 +57,7 @@ export interface IBpFlowStructNode<TArguments extends BpArgumentDataTypes, TRetu
     /**
      * 表示输入的参数类型
      */
-    inputs: TArguments;
+    readonly inputs: TArguments;
     /**
      * 表示输出的参数类型
      */
@@ -65,11 +65,11 @@ export interface IBpFlowStructNode<TArguments extends BpArgumentDataTypes, TRetu
     /**
      * 表示蓝图执行流的入口节点
      */
-    entryNode: IBpEntryNode<TArguments>;
+    readonly entryNode: IBpEntryNode<TArguments>;
     /**
      * 表示蓝图执行流的出口节点
      */
-    endNode: IBpEndNode<TReturn>;
+    readonly endNode: IBpEndNode<TReturn>;
 }
 
 /**
@@ -79,7 +79,7 @@ export interface IBpTimingsNode<TTiming extends IBpTiming> extends IBpAttachedSt
     /**
      * 表示时机的集合
      */
-    timings: IBpTimingSet<TTiming>;
+    readonly timings: IBpTimingSet<TTiming>;
 }
 
 /**

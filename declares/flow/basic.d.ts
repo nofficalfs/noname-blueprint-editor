@@ -1,7 +1,7 @@
 import { IBpData } from "../dataType";
 import { IBpInstNode } from "../flowNode";
 import { IBpOutputPort } from "../port";
-import { BpFunctionInputPorts, BpArgumentDataTypes, BpInputPorts } from "../utils";
+import { BpFunctionInputPorts, BpArgumentDataTypes, BpInputPorts, BpExpSymbols } from "../utils";
 import { IBpExpression } from "./expression";
 
 /**
@@ -20,11 +20,11 @@ export interface IBpSubroutineNode extends IBpBasicInstNode {
     /**
      * 调用的函数输入端口
      */
-    inputs: BpFunctionInputPorts;
+    readonly inputs: BpFunctionInputPorts;
     /**
      * 调用的函数输出端口
      */
-    outputs: readonly [];
+    readonly outputs: [];
 }
 
 export interface IBpExpressionNode<TInputs extends BpArgumentDataTypes, TOutput extends IBpData>
@@ -32,17 +32,17 @@ export interface IBpExpressionNode<TInputs extends BpArgumentDataTypes, TOutput 
     /**
      * 表达式参数输入端口
      */
-    inputs: BpInputPorts<TInputs>;
+    readonly inputs: BpInputPorts<TInputs>;
     /**
      * 表达式结果输出端口
      */
-    outputs: readonly [IBpOutputPort<TOutput>];
+    readonly outputs: [IBpOutputPort<TOutput>];
     /**
      * 表示每个输入端口的名称，用于生成表达式
      */
-    inputSymbols: string[];
+    readonly inputSymbols: BpExpSymbols<TInputs>;
     /**
      * 嵌入的表达式树
      */
-    expression: IBpExpression<TOutput>;
+    expression: IBpExpression<TOutput> | null;
 }

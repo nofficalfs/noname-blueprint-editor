@@ -12,19 +12,19 @@ export interface IBpFlowNode extends IBpNodeBase {
     /**
      * 指定数据的输入端口
      */
-    inputs: readonly IBpInputPort<IBpData>[];
+    readonly inputs: readonly IBpInputPort<IBpData>[];
     /**
      * 指定数据的输出端口
      */
-    outputs: readonly IBpOutputPort<IBpData>[];
+    readonly outputs: readonly IBpOutputPort<IBpData>[];
     /**
      * 指定执行流的输入端口
      */
-    enters: readonly IBpEnterPort[];
+    readonly enters: readonly IBpEnterPort[];
     /**
      * 指定执行流的输出端口
      */
-    exits: readonly IBpExitPort[];
+    readonly exits: readonly IBpExitPort[];
 }
 
 /**
@@ -33,10 +33,10 @@ export interface IBpFlowNode extends IBpNodeBase {
  * 表示一个函数的入口
  */
 export interface IBpEntryNode<TArguments extends BpArgumentDataTypes> extends IBpFlowNode {
-    inputs: readonly [];
-    outputs: BpEntryOutputPorts<TArguments>;
-    enters: readonly [];
-    exits: readonly [IBpExitPort];
+    readonly inputs: [];
+    readonly outputs: BpEntryOutputPorts<TArguments>;
+    readonly enters: [];
+    readonly exits: [IBpExitPort];
 }
 
 /**
@@ -49,10 +49,10 @@ export interface IBpEntryNode<TArguments extends BpArgumentDataTypes> extends IB
  * 多个显示上的出口节点更便于蓝图使用
  */
 export interface IBpEndNode<TReturn extends BpReturnDataType> extends IBpFlowNode {
-    inputs: BpEndInputPorts<TReturn>;
-    outputs: readonly [];
-    enters: readonly [IBpEnterPort];
-    exits: readonly [];
+    readonly inputs: BpEndInputPorts<TReturn>;
+    readonly outputs: [];
+    readonly enters: [IBpEnterPort];
+    readonly exits: [];
 }
 
 /**
@@ -66,12 +66,12 @@ export interface IBpInstNode extends IBpFlowNode {
      * 进入端口
      * -> 开始执行
      */
-    enters: readonly [IBpEnterPort];
+    readonly enters: [IBpEnterPort];
     /**
      * 退出端口
      * -> 结束执行
      */
-    exits: readonly [IBpExitPort];
+    readonly exits: [IBpExitPort];
 }
 
 /**
@@ -85,13 +85,13 @@ export interface IBpComplexInstNode extends IBpFlowNode {
      * 进入端口
      * -> 开始执行
      */
-    enters: readonly [IBpEnterPort];
+    readonly enters: [IBpEnterPort];
     /**
      * 退出端口
      * -> 构造参数流程
      * -> 结束执行
      */
-    exits: readonly [IBpSublinePort, IBpExitPort];
+    readonly exits: [IBpSublinePort, IBpExitPort];
 }
 
 /**

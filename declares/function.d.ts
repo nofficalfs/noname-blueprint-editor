@@ -3,21 +3,16 @@ import { IBpData } from "./dataType";
 import { IBpEntryNode, IBpEndNode } from "./flowNode";
 import { BpArgumentDataTypes, BpReturnDataType } from "./utils";
 
+export interface IBpLocalInits {
+    [symbol: string | symbol]: IBpData;
+}
+
 /**
  * 表示一个函数
  * 
  * @abstract
  */
-export interface IBpFunction<TArguments extends BpArgumentDataTypes, TReturn extends BpReturnDataType> extends IBpContentItem {
-    /**
-     * 表示输入的参数类型
-     */
-    inputs: TArguments;
-    /**
-     * 表示输出的参数类型
-     */
-    outputs: TReturn;
-}
+export interface IBpFunction<TArguments extends BpArgumentDataTypes, TReturn extends BpReturnDataType> extends IBpContentItem {}
 
 /**
  * 表示由原生代码编写的函数
@@ -42,11 +37,11 @@ export interface IBpFlowFunction<TArguments extends BpArgumentDataTypes, TReturn
     /**
      * 表示蓝图执行流的入口节点
      */
-    entryNode: IBpEntryNode<TArguments>;
+    readonly entryNode: IBpEntryNode<TArguments>;
     /**
-     * 表示蓝图执行流的出口节点
+     * 表示蓝图函数执行前要初始化的变量值
      */
-    endNode: IBpEndNode<TReturn>;
+    readonly localInits: IBpLocalInits;
 }
 
 /**
@@ -61,7 +56,7 @@ export interface IBpBuiltinFunction<TSymbol extends string, TArguments extends B
     /**
      * 内建函数标志
      */
-    builtin: true;
+    readonly builtin: true;
 }
 
 /**
@@ -76,7 +71,7 @@ export interface IBpBuiltinLinq<TSymbol extends string, TInput extends IBpData, 
     /**
      * 内建函数标志
      */
-    builtin: true;
+    readonly builtin: true;
 }
 
 /**
@@ -84,15 +79,15 @@ export interface IBpBuiltinLinq<TSymbol extends string, TInput extends IBpData, 
  * 
  * @abstract
  */
-export interface UserFunction extends IBpFunction<BpArgumentDataTypes, BpReturnDataType> {}
+export interface IBpUserFunction extends IBpFunction<BpArgumentDataTypes, BpReturnDataType> {}
 
 /**
  * 表示通过编辑器生成的用户定义的函数
  */
-export interface UserFlowFunction extends UserFunction, IBpFlowFunction<BpArgumentDataTypes, BpReturnDataType> {}
+export interface IBpUserFlowFunction extends IBpUserFunction, IBpFlowFunction<BpArgumentDataTypes, BpReturnDataType> {}
 
 /**
  * 表示一个用户定义函数
  * 由用户自行管理类型与返回值，但可能出现编辑器无法预料的错误
  */
-export interface UserCodeFunction extends UserFunction, IBpCodeFunction<BpArgumentDataTypes, BpReturnDataType> {}
+export interface IBpUserCodeFunction extends IBpUserFunction, IBpCodeFunction<BpArgumentDataTypes, BpReturnDataType> {}
