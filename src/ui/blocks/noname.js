@@ -38,8 +38,19 @@ export function registerBlocks() {
                 this.setColour(45);
             }
         },
+        trigger_timing_judge: {
+            init() {
+                this.appendDummyInput('dummy')
+                    .appendField('判定牌亮出时');
+                this.setPreviousStatement(true, 'Trigger');
+                this.setNextStatement(true, 'Trigger');
+                this.setTooltip('判定牌亮出的时机，可以用于改判');
+                this.setHelpUrl('');
+                this.setColour(45);
+            }
+        },
         trigger_filter_checkEventPlayer: {
-            init: function () {
+            init() {
                 this.appendValueInput('playerSlot')
                     .setCheck('Player')
                     .appendField('当前玩家是');
@@ -50,7 +61,7 @@ export function registerBlocks() {
             }
         },
         trigger_filter_checkEventPlayer: {
-            init: function () {
+            init() {
                 this.appendValueInput('playerSlot')
                     .setCheck('Player')
                     .appendField('当前玩家是');
@@ -74,6 +85,19 @@ export function registerBlocks() {
                 this.setPreviousStatement(true, null);
                 this.setNextStatement(true, null);
                 this.setTooltip('在摸牌阶段使用，更改额定的摸牌数');
+                this.setHelpUrl('');
+                this.setColour(105);
+            }
+        },
+        event_judge_replaceJudgeCard: {
+            init() {
+                this.appendValueInput('newCard')
+                    .appendField('用');
+                this.appendDummyInput('dummy')
+                    .appendField('替换亮出的判定牌');
+                this.setPreviousStatement(true, null);
+                this.setNextStatement(true, null);
+                this.setTooltip('更换亮出的判定牌');
                 this.setHelpUrl('');
                 this.setColour(105);
             }
